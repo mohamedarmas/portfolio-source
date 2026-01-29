@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout Flutter source
+      # 1️⃣ Checkout Flutter SOURCE repo
       - name: Checkout source
         uses: actions/checkout@v4
 
@@ -21,17 +21,23 @@ jobs:
           flutter-version: "3.38.7"
           channel: stable
 
-      # 3️⃣ Install deps
+      # 3️⃣ Ensure correct directory
+      - name: Verify Flutter project
+        run: |
+          ls
+          test -f pubspec.yaml
+
+      # 4️⃣ Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # 4️⃣ BUILD (THIS IS THE IMPORTANT PART)
+      # 5️⃣ Build Flutter Web (IMPORTANT)
       - name: Build Flutter Web
         run: |
           flutter build web --release \
             --dart-define=API_URL=https://pmgjsza276.execute-api.us-east-1.amazonaws.com/prod
 
-      # 5️⃣ Checkout GitHub Pages repo
+      # 6️⃣ Checkout Pages repo
       - name: Checkout Pages repo
         uses: actions/checkout@v4
         with:
@@ -39,18 +45,18 @@ jobs:
           token: ${{ secrets.GH_PAGES_TOKEN }}
           path: pages
 
-      # 6️⃣ Remove old files
-      - name: Clean old build
+      # 7️⃣ Clean old site
+      - name: Clean old site
         run: |
           rm -rf pages/*
           touch pages/.nojekyll
 
-      # 7️⃣ Copy new build
+      # 8️⃣ Copy new build
       - name: Copy new build
         run: |
           cp -r build/web/* pages/
 
-      # 8️⃣ Commit & push
+      # 9️⃣ Commit & push
       - name: Deploy
         run: |
           cd pages
