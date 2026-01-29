@@ -20,7 +20,7 @@ class ExperienceSection extends StatelessWidget {
                 final isMobile = constraints.maxWidth < 800;
 
                 return isMobile
-                    ? _buildColumnLayout(context)
+                    ? _buildColumnLayout(context, isMobile)
                     : _buildRowLayout(context);
               },
             ),
@@ -35,7 +35,7 @@ class ExperienceSection extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        /// LEFT – Image
+        /// LEFT – Image + title
         Expanded(
           flex: 5,
           child: Center(
@@ -60,54 +60,78 @@ class ExperienceSection extends StatelessWidget {
         const SizedBox(width: 60),
 
         /// RIGHT – Text
-        Expanded(flex: 15, child: _buildTextContent()),
+        Expanded(flex: 15, child: _buildTextContent(false)),
       ],
     );
   }
 
   /// Mobile
-  Widget _buildColumnLayout(BuildContext context) {
+  Widget _buildColumnLayout(BuildContext context, bool isMobile) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Text(
+          'Experience',
+          textAlign: TextAlign.center,
+          style: CustomTextStyle.headlinewhite(color: Colors.white).copyWith(
+            fontSize: 22, // ✅ reduced
+          ),
+        ),
+        const SizedBox(height: 16),
         Image.asset(
           'assets/images/champ.png',
-          width: 280,
-          height: 280,
+          width: 240, // ✅ reduced
+          height: 240,
           fit: BoxFit.contain,
         ),
-        const SizedBox(height: 32),
-        _buildTextContent(),
+        const SizedBox(height: 24),
+        _buildTextContent(true),
       ],
     );
   }
 
-  Widget _buildTextContent() {
+  Widget _buildTextContent(bool isMobile) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: isMobile
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.start,
       children: [
         Text(
           '• Buckypaper Technologies | Aug 2024 - Nov 2025',
-          style: CustomTextStyle.bodyTextWhite(color: Colors.white),
-          maxLines: 1,
+          textAlign: isMobile ? TextAlign.center : TextAlign.start,
+          style: CustomTextStyle.bodyTextWhite(color: Colors.white).copyWith(
+            fontSize: isMobile ? 13 : 26, // ✅ reduced
+          ),
+          maxLines: isMobile ? 2 : 1,
+          overflow: TextOverflow.ellipsis,
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 4),
         Text(
-          ' — Software Engineer',
-          style: CustomTextStyle.bodyTextWhite(color: Colors.white),
+          '— Software Engineer',
+          textAlign: isMobile ? TextAlign.center : TextAlign.start,
+          style: CustomTextStyle.bodyTextWhite(color: Colors.white).copyWith(
+            fontSize: isMobile ? 12 : 22, // ✅ reduced
+          ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
+
         Text(
           '• Buckypaper Technologies | May 2024 - Aug 2025',
-          style: CustomTextStyle.bodyTextWhite(color: Colors.white),
-          maxLines: 1,
+          textAlign: isMobile ? TextAlign.center : TextAlign.start,
+          style: CustomTextStyle.bodyTextWhite(color: Colors.white).copyWith(
+            fontSize: isMobile ? 13 : 26, // ✅ reduced
+          ),
+          maxLines: isMobile ? 2 : 1,
+          overflow: TextOverflow.ellipsis,
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 4),
         Text(
-          ' — Flutter Developer',
-          style: CustomTextStyle.bodyTextWhite(color: Colors.white),
+          '— Flutter Developer',
+          textAlign: isMobile ? TextAlign.center : TextAlign.start,
+          style: CustomTextStyle.bodyTextWhite(color: Colors.white).copyWith(
+            fontSize: isMobile ? 12 : 22, // ✅ reduced
+          ),
         ),
-        const SizedBox(height: 12),
       ],
     );
   }

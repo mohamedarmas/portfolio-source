@@ -1,4 +1,6 @@
+import 'package:final_site/helper_widgets/animated_section.dart';
 import 'package:final_site/helper_widgets/nav_item.dart';
+import 'package:final_site/helper_widgets/scroll_animated_section.dart';
 import 'package:final_site/pages/contact_section.dart';
 import 'package:final_site/pages/experience_section.dart';
 import 'package:final_site/pages/footer_section.dart';
@@ -67,16 +69,49 @@ class _PortfolioPageState extends State<PortfolioPage> {
         controller: _scrollController,
         child: Column(
           children: [
-            HomeSection(
-              key: homeKey,
-              onNavigate: scrollTo,
-              projectsKey: projectsKey,
-              contactKey: contactKey,
+            /// 🟢 Animate immediately (on load)
+            ScrollAnimatedSection(
+              controller: _scrollController,
+              triggerOffset: 0,
+              animateOnLoad: true,
+              slideOffset: Offset.zero,
+              child: HomeSection(
+                key: homeKey,
+                onNavigate: scrollTo,
+                projectsKey: projectsKey,
+                contactKey: contactKey,
+              ),
             ),
-            ProjectsSection(key: projectsKey),
-            ExperienceSection(key: experienceKey),
-            SocialSection(key: socialKey),
-            ContactSection(key: contactKey),
+
+            ScrollAnimatedSection(
+              controller: _scrollController,
+              triggerOffset: 0,
+              animateOnLoad: true,
+              slideOffset: Offset.zero,
+              child: ProjectsSection(key: projectsKey),
+            ),
+
+            /// 🔵 Animate on scroll
+            ScrollAnimatedSection(
+              controller: _scrollController,
+              triggerOffset: 600,
+              slideOffset: Offset.zero,
+              child: ExperienceSection(key: experienceKey),
+            ),
+
+            ScrollAnimatedSection(
+              controller: _scrollController,
+              triggerOffset: 1000,
+              child: SocialSection(key: socialKey),
+            ),
+
+            ScrollAnimatedSection(
+              controller: _scrollController,
+              triggerOffset: 1400,
+              slideOffset: const Offset(0, 60),
+              child: ContactSection(key: contactKey),
+            ),
+
             const FooterSection(),
           ],
         ),

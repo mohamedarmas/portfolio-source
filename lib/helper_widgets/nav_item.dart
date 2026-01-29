@@ -16,6 +16,8 @@ class _NavItemState extends State<NavItem> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = MediaQuery.of(context).size.width < 600;
+
     return MouseRegion(
       onEnter: (_) => setState(() => isHovering = true),
       onExit: (_) => setState(() => isHovering = false),
@@ -26,6 +28,7 @@ class _NavItemState extends State<NavItem> {
           style: CustomTextStyle.appBarTextWhite(
             color: isHovering ? Colors.blueGrey : Colors.white,
             fontWeight: FontWeight.w500,
+            fontSize: isMobile ? 12 : 16, // ✅ key change
           ),
         ),
       ),

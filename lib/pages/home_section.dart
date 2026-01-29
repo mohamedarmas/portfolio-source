@@ -14,10 +14,15 @@ class HomeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 800;
+
     return Container(
       width: double.infinity,
       color: Colors.black,
-      padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 24),
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 48 : 100,
+        horizontal: 24,
+      ),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 900),
@@ -50,7 +55,10 @@ class HomeSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildImage(),
+        Center(
+          // ✅ key fix
+          child: _buildImage(),
+        ),
         const SizedBox(height: 32),
         _buildTextContent(context),
       ],

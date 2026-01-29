@@ -64,16 +64,24 @@ class _ContactSectionState extends State<ContactSection> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 800;
+
     return SectionWrapper(
       child: Container(
         width: double.infinity,
         color: Colors.black,
-        padding: const EdgeInsets.symmetric(vertical: 80),
+        padding: EdgeInsets.symmetric(
+          vertical: isMobile ? 48 : 80, // ✅ reduced on mobile
+        ),
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 520),
+
             child: Container(
-              padding: const EdgeInsets.all(32),
+              margin: isMobile
+                  ? const EdgeInsets.symmetric(horizontal: 16)
+                  : EdgeInsets.zero,
+              padding: EdgeInsets.all(isMobile ? 24 : 32), // ✅ reduced
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white.withOpacity(0.06),
@@ -82,49 +90,54 @@ class _ContactSectionState extends State<ContactSection> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  /// Title
                   Text(
                     'Contact Me',
                     textAlign: TextAlign.center,
-                    style: CustomTextStyle.headlinewhite(),
+                    style: CustomTextStyle.headlinewhite().copyWith(
+                      fontSize: isMobile ? 22 : 32, // ✅ reduced
+                    ),
                   ),
-                  const SizedBox(height: 32),
+                  SizedBox(height: isMobile ? 24 : 32),
 
-                  _field('Name', _nameCtrl),
-                  const SizedBox(height: 16),
-                  _field('Email', _emailCtrl),
-                  const SizedBox(height: 16),
-                  _field('Subject', _subjectCtrl),
-                  const SizedBox(height: 16),
-                  _field('Message', _messageCtrl, maxLines: 4),
-                  const SizedBox(height: 28),
+                  _field('Name', _nameCtrl, isMobile: isMobile),
+                  const SizedBox(height: 14),
+                  _field('Email', _emailCtrl, isMobile: isMobile),
+                  const SizedBox(height: 14),
+                  _field('Subject', _subjectCtrl, isMobile: isMobile),
+                  const SizedBox(height: 14),
+                  _field(
+                    'Message',
+                    _messageCtrl,
+                    maxLines: 4,
+                    isMobile: isMobile,
+                  ),
+                  SizedBox(height: isMobile ? 20 : 28),
 
                   SizedBox(
-                    height: 48,
+                    height: isMobile ? 44 : 48,
                     child: ElevatedButton(
                       onPressed: _isLoading ? null : _send,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                          255,
-                          255,
-                          255,
-                          255,
-                        ),
+                        backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       child: _isLoading
                           ? const SizedBox(
-                              height: 22,
-                              width: 22,
+                              height: 20,
+                              width: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             )
                           : Text(
                               'Send Message',
-                              style: CustomTextStyle.buttonTextBlack(),
+                              style: CustomTextStyle.buttonTextBlack().copyWith(
+                                fontSize: isMobile ? 13 : 15, // ✅ reduced
+                              ),
                             ),
                     ),
                   ),
@@ -141,14 +154,21 @@ class _ContactSectionState extends State<ContactSection> {
     String label,
     TextEditingController controller, {
     int maxLines = 1,
+    required bool isMobile,
   }) {
     return TextField(
       controller: controller,
       maxLines: maxLines,
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: isMobile ? 13 : 15, // ✅ input text
+      ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: CustomTextStyle.buttonTextBlack(color: Colors.white70),
+        labelStyle: CustomTextStyle.buttonTextBlack(color: Colors.white70)
+            .copyWith(
+              fontSize: isMobile ? 12 : 14, // ✅ label text
+            ),
         filled: true,
         fillColor: Colors.white.withOpacity(0.05),
         border: OutlineInputBorder(

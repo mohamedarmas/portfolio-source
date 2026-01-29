@@ -14,90 +14,112 @@ class ProjectsSection extends StatelessWidget {
           final isMobile = constraints.maxWidth < 800;
 
           return isMobile
-              ? _buildColumnLayout(context)
+              ? _buildColumnLayout(context, isMobile)
               : _buildRowLayout(context);
         },
       ),
     );
   }
 
+  /// Desktop
   Widget _buildRowLayout(BuildContext context) {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.8,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center, // ✅
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(child: _buildTextContent(context)),
+            Expanded(child: _buildTextContent(context, false)),
             const SizedBox(width: 48),
-            Expanded(child: _buildImage()),
+            Expanded(child: _buildImage(false)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildColumnLayout(BuildContext context) {
+  /// Mobile
+  Widget _buildColumnLayout(BuildContext context, bool isMobile) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center, // ✅
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _buildImage(),
-        const SizedBox(height: 32),
-        _buildTextContent(context),
+        _buildImage(true),
+        const SizedBox(height: 16),
+        _buildTextContent(context, true),
+        const SizedBox(height: 16),
       ],
     );
   }
 
-  Widget _buildTextContent(BuildContext context) {
+  Widget _buildTextContent(BuildContext context, bool isMobile) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start, // ✅
+      crossAxisAlignment: isMobile
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
       children: [
+        /// Heading
         Text(
           'Projects',
-          textAlign: TextAlign.start, // ✅
-          style: CustomTextStyle.headlinewhite(color: Colors.black),
+          textAlign: isMobile ? TextAlign.center : TextAlign.start,
+          style: CustomTextStyle.headlinewhite(color: Colors.black).copyWith(
+            fontSize: isMobile ? 22 : 32, // ✅ reduced on mobile
+          ),
         ),
+        const SizedBox(height: 10),
+
+        /// Body
         Text(
           'Most of the projects I have developed are completely open-source on my GitHub.',
-          textAlign: TextAlign.start, // ✅
-          style: CustomTextStyle.bodyTextWhite(color: Colors.black),
-        ),
-        const SizedBox(height: 24),
-        ElevatedButton(
-          onPressed: () {
-            openLink('https://github.com/mohamedarmas?tab=repositories');
-          },
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
-            elevation: 0,
-            backgroundColor: Colors.black,
+          textAlign: isMobile ? TextAlign.center : TextAlign.start,
+          style: CustomTextStyle.bodyTextWhite(color: Colors.black).copyWith(
+            fontSize: isMobile ? 13 : 16, // ✅ reduced on mobile
+            height: 1.5,
           ),
-          child: Text('See Projects', style: CustomTextStyle.buttonTextWhite()),
+        ),
+        const SizedBox(height: 18),
+
+        /// Button
+        Align(
+          alignment: isMobile ? Alignment.center : Alignment.centerLeft,
+          child: ElevatedButton(
+            onPressed: () {
+              openLink('https://github.com/mohamedarmas?tab=repositories');
+            },
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 20 : 28,
+                vertical: isMobile ? 12 : 16,
+              ),
+              elevation: 0,
+              backgroundColor: Colors.black,
+            ),
+            child: Text(
+              'See Projects',
+              style: CustomTextStyle.buttonTextWhite().copyWith(
+                fontSize: isMobile ? 13 : 15, // ✅ reduced
+              ),
+            ),
+          ),
         ),
       ],
+    );
+  }
+
+  Widget _buildImage(bool isMobile) {
+    return Center(
+      child: Image.asset(
+        'assets/images/mockup.png',
+        width: isMobile ? 260 : 420,
+        height: isMobile ? 260 : 420,
+        fit: BoxFit.contain,
+      ),
     );
   }
 
   Future<void> openLink(String url) async {
     final Uri uri = Uri.parse(url);
-
-    if (!await launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication, // works on web + mobile
-    )) {
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       throw 'Could not launch $url';
     }
-  }
-
-  Widget _buildImage() {
-    return Center(
-      child: Image.asset(
-        'assets/images/mockup.png',
-        width: 420,
-        height: 420,
-        fit: BoxFit.contain,
-      ),
-    );
   }
 }
