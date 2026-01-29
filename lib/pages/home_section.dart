@@ -20,7 +20,7 @@ class HomeSection extends StatelessWidget {
       width: double.infinity,
       color: Colors.black,
       padding: EdgeInsets.symmetric(
-        vertical: isMobile ? 48 : 100,
+        vertical: isMobile ? 48 : 0,
         horizontal: 24,
       ),
       child: Center(
@@ -41,13 +41,47 @@ class HomeSection extends StatelessWidget {
   }
 
   Widget _buildRowLayout(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(child: _buildTextContent(context)),
-        const SizedBox(width: 40),
-        _buildImage(),
-      ],
+    const double imageSize = 350;
+
+    return SizedBox(
+      // Ensures the Stack is tall enough for the image
+      height: imageSize + 40, // small breathing space
+      child: Stack(
+        clipBehavior: Clip.none, // 🔑 IMPORTANT
+        children: [
+          // Main content
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: _buildTextContent(context)),
+              const SizedBox(width: 40),
+              const SizedBox(width: imageSize), // reserve image width
+            ],
+          ),
+
+          // Bottom-aligned image
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: Image.asset(
+              'assets/images/profile.png',
+              width: imageSize,
+              fit: BoxFit.contain,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImageAlignedBottom() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Image.asset(
+        'assets/images/profile.png',
+        width: 260,
+        fit: BoxFit.contain,
+      ),
     );
   }
 
@@ -69,6 +103,7 @@ class HomeSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 80),
         Text(
           'Hi, I’m Mohamed Armas',
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
