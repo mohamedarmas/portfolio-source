@@ -19,10 +19,7 @@ class HomeSection extends StatelessWidget {
     return Container(
       width: double.infinity,
       color: Colors.black,
-      padding: EdgeInsets.symmetric(
-        vertical: isMobile ? 48 : 0,
-        horizontal: 24,
-      ),
+      padding: EdgeInsets.symmetric(vertical: isMobile ? 0 : 0, horizontal: 24),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 900),
@@ -86,15 +83,35 @@ class HomeSection extends StatelessWidget {
   }
 
   Widget _buildColumnLayout(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    const double imageSize = 260;
+    const double gap = 20; // precise gap between text and image
+
+    return Stack(
       children: [
-        Center(
-          // ✅ key fix
-          child: _buildImage(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // top breathing space (controlled)
+            _buildTextContent(context),
+
+            // exact space needed for image + small gap
+            const SizedBox(height: imageSize + gap),
+          ],
         ),
-        const SizedBox(height: 32),
-        _buildTextContent(context),
+
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Image.asset(
+              'assets/images/profile.png',
+              width: imageSize,
+              height: imageSize,
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -103,7 +120,7 @@ class HomeSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 80),
+        const SizedBox(height: 40),
         Text(
           'Hi, I’m Mohamed Armas',
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
