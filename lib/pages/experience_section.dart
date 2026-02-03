@@ -1,5 +1,6 @@
 import 'package:final_site/helper_widgets/custom_textstyle.dart';
 import 'package:final_site/helper_widgets/section_wrapper.dart';
+import 'package:final_site/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class ExperienceSection extends StatelessWidget {
@@ -10,8 +11,13 @@ class ExperienceSection extends StatelessWidget {
     return SectionWrapper(
       child: Container(
         width: double.infinity,
-        color: Colors.black,
-        padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 24),
+        color: AppColors.black,
+        padding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.width < 800
+              ? AppSpacing.sectionYCompact
+              : AppSpacing.sectionY,
+          horizontal: AppSpacing.contentX,
+        ),
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 1100),
@@ -43,7 +49,7 @@ class ExperienceSection extends StatelessWidget {
               children: [
                 Text(
                   'Experience',
-                  style: CustomTextStyle.headlinewhite(color: Colors.white),
+                  style: CustomTextStyle.headlinewhite(color: AppColors.white),
                 ),
                 const SizedBox(height: 24),
                 Image.asset(
@@ -73,7 +79,7 @@ class ExperienceSection extends StatelessWidget {
         Text(
           'Experience',
           textAlign: TextAlign.center,
-          style: CustomTextStyle.headlinewhite(color: Colors.white).copyWith(
+          style: CustomTextStyle.headlinewhite(color: AppColors.white).copyWith(
             fontSize: 22, // ✅ reduced
           ),
         ),
@@ -99,7 +105,7 @@ class ExperienceSection extends StatelessWidget {
         Text(
           '• Buckypaper Technologies | Aug 2024 - Nov 2025',
           textAlign: isMobile ? TextAlign.center : TextAlign.start,
-          style: CustomTextStyle.bodyTextWhite(color: Colors.white).copyWith(
+          style: CustomTextStyle.bodyTextWhite(color: AppColors.white).copyWith(
             fontSize: isMobile ? 13 : 26, // ✅ reduced
           ),
           maxLines: isMobile ? 2 : 1,
@@ -109,7 +115,7 @@ class ExperienceSection extends StatelessWidget {
         Text(
           '— Software Engineer',
           textAlign: isMobile ? TextAlign.center : TextAlign.start,
-          style: CustomTextStyle.bodyTextWhite(color: Colors.white).copyWith(
+          style: CustomTextStyle.bodyTextWhite(color: AppColors.white).copyWith(
             fontSize: isMobile ? 12 : 22, // ✅ reduced
           ),
         ),
@@ -118,7 +124,7 @@ class ExperienceSection extends StatelessWidget {
         Text(
           '• Buckypaper Technologies | May 2024 - Aug 2025',
           textAlign: isMobile ? TextAlign.center : TextAlign.start,
-          style: CustomTextStyle.bodyTextWhite(color: Colors.white).copyWith(
+          style: CustomTextStyle.bodyTextWhite(color: AppColors.white).copyWith(
             fontSize: isMobile ? 13 : 26, // ✅ reduced
           ),
           maxLines: isMobile ? 2 : 1,
@@ -128,7 +134,7 @@ class ExperienceSection extends StatelessWidget {
         Text(
           '— Flutter Developer',
           textAlign: isMobile ? TextAlign.center : TextAlign.start,
-          style: CustomTextStyle.bodyTextWhite(color: Colors.white).copyWith(
+          style: CustomTextStyle.bodyTextWhite(color: AppColors.white).copyWith(
             fontSize: isMobile ? 12 : 22, // ✅ reduced
           ),
         ),

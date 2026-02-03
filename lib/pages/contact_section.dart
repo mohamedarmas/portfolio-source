@@ -2,6 +2,7 @@ import 'package:final_site/helper_widgets/custom_textstyle.dart';
 import 'package:final_site/helper_widgets/section_wrapper.dart';
 import 'package:final_site/helper_widgets/toast.dart';
 import 'package:final_site/services/contact_api.dart';
+import 'package:final_site/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class ContactSection extends StatefulWidget {
@@ -69,9 +70,10 @@ class _ContactSectionState extends State<ContactSection> {
     return SectionWrapper(
       child: Container(
         width: double.infinity,
-        color: Colors.black,
+        color: AppColors.black,
         padding: EdgeInsets.symmetric(
-          vertical: isMobile ? 48 : 80, // ✅ reduced on mobile
+          vertical:
+              isMobile ? AppSpacing.sectionYCompact : AppSpacing.sectionY,
         ),
         child: Center(
           child: ConstrainedBox(
@@ -84,8 +86,8 @@ class _ContactSectionState extends State<ContactSection> {
               padding: EdgeInsets.all(isMobile ? 24 : 32), // ✅ reduced
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.white.withOpacity(0.06),
-                border: Border.all(color: Colors.white24),
+                color: AppColors.white.withOpacity(0.06),
+                border: Border.all(color: AppColors.white.withOpacity(0.15)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -119,7 +121,7 @@ class _ContactSectionState extends State<ContactSection> {
                     child: ElevatedButton(
                       onPressed: _isLoading ? null : _send,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: AppColors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -130,7 +132,7 @@ class _ContactSectionState extends State<ContactSection> {
                               width: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                color: Colors.black,
+                                color: AppColors.black,
                               ),
                             )
                           : Text(
@@ -160,21 +162,13 @@ class _ContactSectionState extends State<ContactSection> {
       controller: controller,
       maxLines: maxLines,
       style: TextStyle(
-        color: Colors.white,
+        color: AppColors.white,
         fontSize: isMobile ? 13 : 15, // ✅ input text
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: CustomTextStyle.buttonTextBlack(color: Colors.white70)
-            .copyWith(
-              fontSize: isMobile ? 12 : 14, // ✅ label text
-            ),
-        filled: true,
-        fillColor: Colors.white.withOpacity(0.05),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
+        labelStyle: CustomTextStyle.buttonTextBlack(color: AppColors.subtle)
+            .copyWith(fontSize: isMobile ? 12 : 14),
       ),
     );
   }

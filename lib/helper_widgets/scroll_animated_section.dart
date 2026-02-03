@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:final_site/theme/app_theme.dart';
 
 class ScrollAnimatedSection extends StatefulWidget {
   final Widget child;
@@ -23,6 +24,7 @@ class ScrollAnimatedSection extends StatefulWidget {
 
 class _ScrollAnimatedSectionState extends State<ScrollAnimatedSection> {
   bool _visible = false;
+  bool _reduceMotion = false;
 
   @override
   void initState() {
@@ -30,7 +32,10 @@ class _ScrollAnimatedSectionState extends State<ScrollAnimatedSection> {
 
     /// ✅ Animate immediately after first frame if requested
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.animateOnLoad) {
+      if (!mounted) return;
+      _reduceMotion =
+          MediaQuery.of(context).accessibilityFeatures.disableAnimations;
+      if (_reduceMotion || widget.animateOnLoad) {
         setState(() => _visible = true);
       } else if (widget.controller.offset >= widget.triggerOffset) {
         setState(() => _visible = true);
@@ -41,7 +46,7 @@ class _ScrollAnimatedSectionState extends State<ScrollAnimatedSection> {
   }
 
   void _onScroll() {
-    if (_visible || widget.animateOnLoad) return;
+    if (_visible || widget.animateOnLoad || _reduceMotion) return;
 
     if (widget.controller.offset >= widget.triggerOffset) {
       setState(() => _visible = true);
@@ -56,12 +61,13 @@ class _ScrollAnimatedSectionState extends State<ScrollAnimatedSection> {
 
   @override
   Widget build(BuildContext context) {
+    final duration = _reduceMotion ? Duration.zero : AppMotion.slow;
     return AnimatedOpacity(
-      duration: const Duration(milliseconds: 700),
+      duration: duration,
       opacity: _visible ? 1 : 0,
       child: AnimatedSlide(
-        duration: const Duration(milliseconds: 700),
-        curve: Curves.easeOutCubic,
+        duration: duration,
+        curve: AppMotion.emphasized,
         offset: _visible
             ? Offset.zero
             : Offset(

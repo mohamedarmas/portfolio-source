@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
+import 'package:final_site/theme/app_theme.dart';
 
 class AnimatedSection extends StatefulWidget {
   final Widget child;
@@ -20,21 +20,24 @@ class AnimatedSection extends StatefulWidget {
 
 class _AnimatedSectionState extends State<AnimatedSection> {
   bool _isVisible = false;
+  bool _reduceMotion = false;
 
   @override
   Widget build(BuildContext context) {
+    _reduceMotion =
+        MediaQuery.of(context).accessibilityFeatures.disableAnimations;
     return VisibilityDetector(
       // ✅ UNIQUE KEY — this fixes your issue
       key: UniqueKey(),
       onVisibilityChanged: (info) {
-        if (info.visibleFraction > 0.15 && !_isVisible) {
+        if ((_reduceMotion || info.visibleFraction > 0.15) && !_isVisible) {
           setState(() => _isVisible = true);
         }
       },
       child: AnimatedOpacity(
         opacity: _isVisible ? 1 : 0,
-        duration: widget.duration,
-        curve: Curves.easeOut,
+        duration: _reduceMotion ? Duration.zero : widget.duration,
+        curve: AppMotion.gentle,
         child: AnimatedSlide(
           offset: _isVisible
               ? Offset.zero
@@ -42,8 +45,8 @@ class _AnimatedSectionState extends State<AnimatedSection> {
                   widget.offset.dx / 100,
                   widget.offset.dy / 100,
                 ),
-          duration: widget.duration,
-          curve: Curves.easeOutCubic,
+          duration: _reduceMotion ? Duration.zero : widget.duration,
+          curve: AppMotion.emphasized,
           child: widget.child,
         ),
       ),

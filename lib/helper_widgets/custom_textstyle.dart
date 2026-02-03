@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:final_site/theme/app_theme.dart';
 
 class CustomTextStyle {
   static const String fontFamily = 'GoogleSans';
 
   static TextStyle headlineblack({
-    Color color = const Color(0xFF000000),
+    Color color = AppColors.black,
     double fontSize = 32,
     FontWeight fontWeight = FontWeight.bold,
   }) {
@@ -17,7 +18,7 @@ class CustomTextStyle {
   }
 
   static TextStyle headlinewhite({
-    Color color = const Color(0xFFFFFFFF),
+    Color color = AppColors.white,
     double fontSize = 42,
     FontWeight fontWeight = FontWeight.bold,
   }) {
@@ -30,7 +31,7 @@ class CustomTextStyle {
   }
 
   static TextStyle bodyTextBlack({
-    Color color = const Color(0xFF000000),
+    Color color = AppColors.black,
     double fontSize = 30,
     FontWeight fontWeight = FontWeight.normal,
   }) {
@@ -43,7 +44,7 @@ class CustomTextStyle {
   }
 
   static TextStyle bodyTextWhite({
-    Color color = const Color(0xFFFFFFFF),
+    Color color = AppColors.white,
     double fontSize = 30,
     FontWeight fontWeight = FontWeight.normal,
   }) {
@@ -56,7 +57,7 @@ class CustomTextStyle {
   }
 
   static TextStyle buttonTextWhite({
-    Color color = const Color(0xFFFFFFFF),
+    Color color = AppColors.white,
     double fontSize = 18,
     FontWeight fontWeight = FontWeight.normal,
   }) {
@@ -67,8 +68,8 @@ class CustomTextStyle {
       color: color,
     );
   }
- static TextStyle buttonTextBlack({
-    Color color = const Color(0xFF000000),
+  static TextStyle buttonTextBlack({
+    Color color = AppColors.black,
     double fontSize = 18,
     FontWeight fontWeight = FontWeight.normal,
   }) {
@@ -80,7 +81,7 @@ class CustomTextStyle {
     );
   }
   static TextStyle appBarTextWhite({
-    Color color = const Color(0xFFFFFFFF),
+    Color color = AppColors.white,
     double fontSize = 16,
     FontWeight fontWeight = FontWeight.normal,
   }) {

@@ -7,6 +7,7 @@ import 'package:final_site/pages/footer_section.dart';
 import 'package:final_site/pages/home_section.dart';
 import 'package:final_site/pages/projects_section.dart';
 import 'package:final_site/pages/social_section.dart';
+import 'package:final_site/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,11 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Armas Portfolio',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primarySwatch: Colors.blueGrey,
-        fontFamily: 'Roboto',
-      ),
+      theme: buildAppTheme(),
       home: const PortfolioPage(),
     );
   }
@@ -74,7 +71,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
               controller: _scrollController,
               triggerOffset: 0,
               animateOnLoad: true,
-              slideOffset: Offset.zero,
+              slideOffset: const Offset(0, 20),
               child: HomeSection(
                 key: homeKey,
                 onNavigate: scrollTo,
@@ -87,7 +84,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
               controller: _scrollController,
               triggerOffset: 0,
               animateOnLoad: true,
-              slideOffset: Offset.zero,
+              slideOffset: const Offset(0, 16),
               child: ProjectsSection(key: projectsKey),
             ),
 
@@ -95,13 +92,14 @@ class _PortfolioPageState extends State<PortfolioPage> {
             ScrollAnimatedSection(
               controller: _scrollController,
               triggerOffset: 600,
-              slideOffset: Offset.zero,
+              slideOffset: const Offset(0, 24),
               child: ExperienceSection(key: experienceKey),
             ),
 
             ScrollAnimatedSection(
               controller: _scrollController,
               triggerOffset: 1000,
+              slideOffset: const Offset(0, 24),
               child: SocialSection(key: socialKey),
             ),
 
@@ -130,30 +128,29 @@ class MyAppBar extends StatelessWidget {
     final state = context.findAncestorStateOfType<_PortfolioPageState>()!;
 
     return AppBar(
-      elevation: 0,
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.black,
       centerTitle: true,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           NavItem('Home', () => onNavigate(state.homeKey)),
           const SizedBox(width: 10),
-          Text('|', style: TextStyle(color: Colors.grey[600])),
+          const Text('|', style: TextStyle(color: AppColors.subtle)),
           const SizedBox(width: 10),
 
           NavItem('Projects', () => onNavigate(state.projectsKey)),
           const SizedBox(width: 10),
-          Text('|', style: TextStyle(color: Colors.grey[600])),
+          const Text('|', style: TextStyle(color: AppColors.subtle)),
           const SizedBox(width: 10),
 
           NavItem('Experience', () => onNavigate(state.experienceKey)),
           const SizedBox(width: 10),
-          Text('|', style: TextStyle(color: Colors.grey[600])),
+          const Text('|', style: TextStyle(color: AppColors.subtle)),
           const SizedBox(width: 10),
 
           NavItem('Social', () => onNavigate(state.socialKey)),
           const SizedBox(width: 10),
-          Text('|', style: TextStyle(color: Colors.grey[600])),
+          const Text('|', style: TextStyle(color: AppColors.subtle)),
           const SizedBox(width: 10),
 
           NavItem('Contact', () => onNavigate(state.contactKey)),
