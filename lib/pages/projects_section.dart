@@ -1,5 +1,7 @@
 import 'package:final_site/helper_widgets/custom_textstyle.dart';
+import 'package:final_site/helper_widgets/hover_lift.dart';
 import 'package:final_site/helper_widgets/section_wrapper.dart';
+import 'package:final_site/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,14 +11,24 @@ class ProjectsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SectionWrapper(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final isMobile = constraints.maxWidth < 800;
+      child: Container(
+        width: double.infinity,
+        color: AppColors.white,
+        padding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.width < 800
+              ? AppSpacing.sectionYCompact
+              : AppSpacing.sectionY,
+          horizontal: AppSpacing.contentX,
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isMobile = constraints.maxWidth < 800;
 
-          return isMobile
-              ? _buildColumnLayout(context, isMobile)
-              : _buildRowLayout(context);
-        },
+            return isMobile
+                ? _buildColumnLayout(context, isMobile)
+                : _buildRowLayout(context);
+          },
+        ),
       ),
     );
   }
@@ -61,7 +73,7 @@ class ProjectsSection extends StatelessWidget {
         Text(
           'Projects',
           textAlign: isMobile ? TextAlign.center : TextAlign.start,
-          style: CustomTextStyle.headlinewhite(color: Colors.black).copyWith(
+          style: CustomTextStyle.headlinewhite(color: AppColors.black).copyWith(
             fontSize: isMobile ? 22 : 32, // ✅ reduced on mobile
           ),
         ),
@@ -71,7 +83,7 @@ class ProjectsSection extends StatelessWidget {
         Text(
           'Most of the projects I have developed are completely open-source on my GitHub.',
           textAlign: isMobile ? TextAlign.center : TextAlign.start,
-          style: CustomTextStyle.bodyTextWhite(color: Colors.black).copyWith(
+          style: CustomTextStyle.bodyTextWhite(color: AppColors.ink).copyWith(
             fontSize: isMobile ? 13 : 16, // ✅ reduced on mobile
             height: 1.5,
           ),
@@ -81,22 +93,24 @@ class ProjectsSection extends StatelessWidget {
         /// Button
         Align(
           alignment: isMobile ? Alignment.center : Alignment.centerLeft,
-          child: ElevatedButton(
-            onPressed: () {
-              openLink('https://github.com/mohamedarmas?tab=repositories');
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(
-                horizontal: isMobile ? 20 : 28,
-                vertical: isMobile ? 12 : 16,
+          child: HoverLift(
+            child: ElevatedButton(
+              onPressed: () {
+                openLink('https://github.com/mohamedarmas?tab=repositories');
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isMobile ? 20 : 28,
+                  vertical: isMobile ? 12 : 16,
+                ),
+                backgroundColor: AppColors.black,
+                foregroundColor: AppColors.white,
               ),
-              elevation: 0,
-              backgroundColor: Colors.black,
-            ),
-            child: Text(
-              'See Projects',
-              style: CustomTextStyle.buttonTextWhite().copyWith(
-                fontSize: isMobile ? 13 : 15, // ✅ reduced
+              child: Text(
+                'See Projects',
+                style: CustomTextStyle.buttonTextWhite().copyWith(
+                  fontSize: isMobile ? 13 : 15, // ✅ reduced
+                ),
               ),
             ),
           ),

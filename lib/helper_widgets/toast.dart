@@ -1,11 +1,12 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
+import 'package:final_site/theme/app_theme.dart';
 
 void showSuccessToast(String message) {
   Fluttertoast.showToast(
     msg: message,
-    backgroundColor: Colors.green.shade600,
-    textColor: Colors.white,
+    backgroundColor: AppColors.black,
+    textColor: AppColors.white,
     gravity: ToastGravity.BOTTOM,
   );
 }
@@ -13,9 +14,8 @@ void showSuccessToast(String message) {
 void showErrorToast(String message) {
   Fluttertoast.showToast(
     msg: message,
-    
-    backgroundColor: Colors.red.shade600,
-    textColor: Colors.white,
+    backgroundColor: AppColors.black,
+    textColor: AppColors.white,
     gravity: ToastGravity.BOTTOM,
   );
 }

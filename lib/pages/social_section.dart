@@ -1,6 +1,7 @@
 import 'package:final_site/helper_widgets/custom_textstyle.dart';
 import 'package:final_site/helper_widgets/section_wrapper.dart';
 import 'package:final_site/helper_widgets/social_button.dart';
+import 'package:final_site/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,10 +18,11 @@ class SocialSection extends StatelessWidget {
           return Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(
-              vertical: isMobile ? 48 : 100, // ✅ reduced on mobile
-              horizontal: 24,
+              vertical:
+                  isMobile ? AppSpacing.sectionYCompact : AppSpacing.sectionY,
+              horizontal: AppSpacing.contentX,
             ),
-            color: Colors.white,
+            color: AppColors.white,
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 1100),

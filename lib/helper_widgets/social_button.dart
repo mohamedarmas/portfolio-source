@@ -1,48 +1,70 @@
 import 'package:final_site/helper_widgets/custom_textstyle.dart';
+import 'package:final_site/helper_widgets/hover_lift.dart';
+import 'package:final_site/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SocialButton extends StatelessWidget {
+class SocialButton extends StatefulWidget {
   final String icon;
   final String label;
   final VoidCallback onTap;
 
-  const SocialButton({super.key, required this.icon, required this.label, required this.onTap});
+  const SocialButton({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  State<SocialButton> createState() => _SocialButtonState();
+}
+
+class _SocialButtonState extends State<SocialButton> {
+  bool _hovered = false;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        width: 260,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          gradient: LinearGradient(
-            colors: [
-              Colors.white.withOpacity(0.15),
-              Colors.white.withOpacity(0.05),
-            ],
-          ),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.black.withOpacity(0.4),
-          //     blurRadius: 12,
-          //     offset: const Offset(0, 6),
-          //   ),
-          // ],
-          border: Border.all(color: Colors.black.withOpacity(0.2)),
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 18,
-              backgroundColor: Colors.white,
-              child: SvgPicture.asset(icon, height: 18, color: Colors.black),
+    final reduceMotion = MediaQuery.of(context).disableAnimations;
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: HoverLift(
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onTap,
+            borderRadius: BorderRadius.circular(14),
+            child: AnimatedContainer(
+              duration: reduceMotion ? Duration.zero : AppMotion.fast,
+              curve: AppMotion.emphasized,
+              width: 260,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                color: _hovered ? AppColors.white : AppColors.surface,
+                border: Border.all(
+                  color: _hovered ? AppColors.ink : AppColors.border,
+                ),
+              ),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 18,
+                    backgroundColor: AppColors.black,
+                    child: SvgPicture.asset(
+                      widget.icon,
+                      height: 18,
+                      color: AppColors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Text(widget.label, style: CustomTextStyle.buttonTextBlack()),
+                ],
+              ),
             ),
-            const SizedBox(width: 14),
-            Text(label, style: CustomTextStyle.buttonTextBlack()),
-          ],
+          ),
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:final_site/helper_widgets/hover_lift.dart';
+import 'package:final_site/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class HomeSection extends StatelessWidget {
@@ -18,8 +20,11 @@ class HomeSection extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: Colors.black,
-      padding: EdgeInsets.symmetric(vertical: isMobile ? 0 : 0, horizontal: 24),
+      color: AppColors.black,
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? AppSpacing.sectionYCompact : AppSpacing.sectionY,
+        horizontal: AppSpacing.contentX,
+      ),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 900),
@@ -120,49 +125,39 @@ class HomeSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 40),
         Text(
           'Hi, I’m Mohamed Armas',
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-            color: Colors.white,
+            color: AppColors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 16),
         Text(
           'Flutter Developer with 1+ year of experience building scalable, high-performance mobile and web applications. '
           'Strong focus on clean architecture, REST APIs, Firebase, and modern UI/UX.',
           style: Theme.of(
             context,
-          ).textTheme.titleMedium?.copyWith(color: Colors.white70, height: 1.6),
+          ).textTheme.titleMedium?.copyWith(
+            color: AppColors.subtle,
+            height: 1.6,
+          ),
         ),
         const SizedBox(height: 32),
         Row(
           children: [
-            ElevatedButton(
-              onPressed: () => onNavigate(projectsKey),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 28,
-                  vertical: 16,
-                ),
+            HoverLift(
+              child: ElevatedButton(
+                onPressed: () => onNavigate(projectsKey),
+                child: const Text('View Projects'),
               ),
-              child: const Text('View Projects'),
             ),
             const SizedBox(width: 16),
-            OutlinedButton(
-              onPressed: () => onNavigate(contactKey),
-              style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Colors.white54),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 28,
-                  vertical: 16,
-                ),
+            HoverLift(
+              child: OutlinedButton(
+                onPressed: () => onNavigate(contactKey),
+                child: const Text('Contact Me'),
               ),
-              child: const Text('Contact Me'),
             ),
           ],
         ),
